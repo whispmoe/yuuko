@@ -1,12 +1,14 @@
-const SPEED = 3;
-
 let collisions = 0;
-let direction = Math.random() * 2 * Math.PI;
 let lastTime = 0;
 
 const screen = {
     width: window.innerWidth,
     height: innerHeight,
+};
+
+const speed = {
+    x: 2,
+    y: 2,
 };
 
 window.addEventListener("resize", () => {
@@ -71,16 +73,18 @@ const update = (time: number) => {
             }, 500);
         });
 
-        // pick new direction and ensure it does not collide
-        do direction = Math.random() * 2 * Math.PI;
-        while (
-            (yuuko.pos.x <= 0 && Math.cos(direction) < 0) ||
-            (yuuko.pos.y <= 0 && Math.sin(direction) < 0) ||
-            (yuuko.pos.x + yuuko.ref.offsetWidth >= screen.width &&
-                Math.cos(direction) > 0) ||
-            (yuuko.pos.y + yuuko.ref.offsetHeight >= screen.height &&
-                Math.sin(direction) > 0)
-        );
+        // reverse speed in colliding axis
+        if (
+            yuuko.pos.x <= 0 ||
+            yuuko.pos.x + yuuko.ref.offsetWidth >= screen.width
+        )
+            speed.x = -speed.x;
+
+        if (
+            yuuko.pos.y <= 0 ||
+            yuuko.pos.y + yuuko.ref.offsetHeight >= screen.height
+        )
+            speed.y = -speed.y;
 
         // reposition yuuko if out of bounds
         if (yuuko.pos.x < 0) yuuko.pos.x = 0;
@@ -91,8 +95,8 @@ const update = (time: number) => {
             yuuko.pos.y = screen.height - yuuko.ref.offsetHeight;
     }
 
-    yuuko.pos.x += SPEED * 100 * Math.cos(direction) * delta;
-    yuuko.pos.y += SPEED * 100 * Math.sin(direction) * delta;
+    yuuko.pos.x += speed.x * 100 * delta;
+    yuuko.pos.y += speed.y * 100 * delta;
     yuuko.ref.style.left = `${yuuko.pos.x}px`;
     yuuko.ref.style.top = `${yuuko.pos.y}px`;
     requestAnimationFrame(update);
