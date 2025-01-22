@@ -34,8 +34,6 @@ if (!counter) throw new Error("counter is not defined");
 
 document.addEventListener("DOMContentLoaded", () => {
     // set initial pos
-    const maxX = screen.width - yuuko.ref.offsetWidth;
-    const maxY = screen.height - yuuko.ref.offsetHeight;
     yuuko.pos.x = screen.height / 2 + yuuko.ref.offsetWidth;
     yuuko.pos.y = screen.height / 2 + yuuko.ref.offsetHeight;
     yuuko.ref.style.display = "block";
