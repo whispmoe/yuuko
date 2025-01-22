@@ -24,14 +24,11 @@ const yuuko = {
     },
 };
 
-const sadness = {
-    timeout: -1,
-    ref: document.getElementById("sadness") as HTMLImageElement,
-};
+const sadness = document.getElementById("sadness") as HTMLImageElement;
 
 const counter = document.getElementById("counter") as HTMLSpanElement;
-if (!sadness.ref) throw new Error("sadness is not defined");
 if (!yuuko.ref) throw new Error("yuuko is not defined");
+if (!sadness) throw new Error("sadness is not defined");
 if (!counter) throw new Error("counter is not defined");
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -57,20 +54,17 @@ const update = (time: number) => {
         counter.innerText = collisions.toString();
         const boom = new Audio("boom.mp3");
         boom.play().then(() => {
-            sadness.ref.style.opacity = "1";
-            if (sadness.timeout !== -1) clearTimeout(sadness.timeout);
-            sadness.timeout = setTimeout(() => {
-                const fadeOut = () => {
-                    let opacity = parseFloat(sadness.ref.style.opacity);
-                    if (opacity > 0) {
-                        opacity -= 0.01;
-                        sadness.ref.style.opacity = opacity.toString();
-                        requestAnimationFrame(fadeOut);
-                    }
-                };
+            sadness.style.opacity = "1";
+            const fadeOut = () => {
+                let opacity = parseFloat(sadness.style.opacity);
+                if (opacity > 0) {
+                    opacity -= 0.01;
+                    sadness.style.opacity = opacity.toString();
+                    requestAnimationFrame(fadeOut);
+                }
+            };
 
-                fadeOut();
-            }, 500);
+            fadeOut();
         });
 
         // reverse speed in colliding axis
