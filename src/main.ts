@@ -33,8 +33,8 @@ if (!counter) throw new Error("counter is not defined");
 
 document.addEventListener("DOMContentLoaded", () => {
     // set initial pos
-    yuuko.pos.x = screen.height / 2 + yuuko.ref.offsetWidth;
-    yuuko.pos.y = screen.height / 2 + yuuko.ref.offsetHeight;
+    yuuko.pos.x = Math.random() * (screen.width - yuuko.ref.offsetWidth);
+    yuuko.pos.y = Math.random() * (screen.height - yuuko.ref.offsetHeight);
     yuuko.ref.style.display = "block";
     requestAnimationFrame(update);
 });
